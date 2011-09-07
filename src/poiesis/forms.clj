@@ -19,5 +19,6 @@
     Term
     (atomic? [_] true)
     Atom
-     (get-sym [_] sym)))
+     (get-sym [_] sym)
+     (eq? [_ other](= sym (get-sym other)))))
 

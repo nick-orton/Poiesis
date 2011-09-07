@@ -25,5 +25,7 @@
 (defn make-lambda [bound-vars terms]
   (reify
     Term
-      (atomic? [_] false)))
+      (atomic? [_] false)
+    Expression
+      (lambda? [_] (not (empty? bound-vars)))))
 

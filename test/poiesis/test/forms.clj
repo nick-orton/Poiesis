@@ -6,6 +6,7 @@
 (def foo (make-atom "foo"))
 
 (def lambda-expr (make-lambda '(foo) '()))
+(def empty-expression (make-lambda '() '()))
 
 (deftest atoms-are-atomic 
   (is (atomic? foo)))
@@ -21,4 +22,8 @@
 
 (deftest expressions-are-not-atomic
   (is (not (atomic? lambda-expr))))
+
+(deftest expressions-are-lambdas-if-they-bind-variables
+  (is (lambda? lambda-expr))
+  (is (not (lambda? empty-expression))))
 

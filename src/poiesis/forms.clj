@@ -22,3 +22,8 @@
      (get-sym [_] sym)
      (eq? [_ other](= sym (get-sym other)))))
 
+(defn make-lambda [bound-vars terms]
+  (reify
+    Term
+      (atomic? [_] false)))
+

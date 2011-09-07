@@ -27,5 +27,7 @@
     Term
       (atomic? [_] false)
     Expression
-      (lambda? [_] (not (empty? bound-vars)))))
+      (lambda? [_] (not (empty? bound-vars)))
+      (get-bound-vars [_] bound-vars)
+      (get-terms [_] terms)))
 

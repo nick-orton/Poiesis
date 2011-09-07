@@ -20,7 +20,9 @@
     (atomic? [_] true)
     Atom
      (get-sym [_] sym)
-     (eq? [_ other](= sym (get-sym other)))))
+     (eq? [_ other](= sym (get-sym other)))
+     (bound-by? [self lambda]
+          (some #(eq? self %) (get-bound-vars lambda)))))
 
 (defn make-lambda [bound-vars terms]
   (reify

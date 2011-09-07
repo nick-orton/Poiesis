@@ -17,5 +17,7 @@
 (defn make-atom [sym]
   (reify
     Term
-    (atomic? [_] true)))
+    (atomic? [_] true)
+    Atom
+     (get-sym [_] sym)))
 

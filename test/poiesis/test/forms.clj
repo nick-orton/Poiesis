@@ -4,3 +4,6 @@
 
 (deftest atoms-are-atomic 
   (is (atomic? (make-atom "foo"))))
+
+(deftest atoms-have-syms
+  (is (= "foo" (get-sym (make-atom "foo")))))

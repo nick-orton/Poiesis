@@ -34,3 +34,15 @@
                    (cons arg (beta-reduce variable arg (rest terms)))
                    (cons term (beta-reduce variable arg (rest terms))))
                (cons (replace-free variable arg term) (beta-reduce variable arg (rest terms)))))))
+
+(defn apply-var
+  [lambda arg]
+  (let [vars (get-bound-vars lambda)
+        terms (get-terms lambda)]
+       (if (empty? vars)
+           lambda
+           (let [variable (first vars)
+                 new-terms (beta-reduce variable arg terms)]
+                (make-lambda (rest vars) new-terms)))))
+                
+       

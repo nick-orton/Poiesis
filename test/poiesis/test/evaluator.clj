@@ -35,3 +35,12 @@
   (def no-bound-sub-terms (beta-reduce x z (get-terms lx-lxy-y)))
   (is (= z (nth no-bound-sub-terms 0)))
   (is (= [x y] (get-terms (nth no-bound-sub-terms 1)))))
+
+(deftest test-apply-var
+  (def result (get-terms (apply-var lx-lzx-y y)))
+  (is (= y (nth result 0)))
+  (is (= [z y] (get-terms (nth result 1))))
+  (def no-bound-sub-terms (get-terms (apply-var lx-lxy-y z)))
+  (is (= z (nth no-bound-sub-terms 0)))
+  (is (= [x y] (get-terms (nth no-bound-sub-terms 1)))))
+

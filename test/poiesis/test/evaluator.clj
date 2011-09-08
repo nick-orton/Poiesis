@@ -72,7 +72,11 @@
 
   ; ( (\xy.xy) z f) -> (z f)       
   (def f (make-atom "f"))
-  (def lxy-xy (make-lambda [x y] [z f]))
-  (def tl-apply (make-lambda [] [lxy-xy f]))
+  (def lxy-xy (make-lambda [x y] [x y]))
+  (def tl-apply (make-lambda [] [lxy-xy z f]))
   (is (= [z f] (get-terms (evaluate tl-apply))))
+
+  ; ((\xy.xy)(\x.x)z) -> z       
+  (def e-lxy-xy-lx-x-z (make-lambda [] [lxy-xy lxx z]))
+  (is (= z (evaluate e-lxy-xy-lx-x-z)))
  )

@@ -69,4 +69,10 @@
   (def xy-y (make-lambda '() [xy y]))
   (is (= y (nth (get-terms (evaluate xy-y)) 1 )))
   (is (= [x y] (get-terms (nth (get-terms (evaluate xy-y)) 0 ))))
+
+  ; ( (\xy.xy) z f) -> (z f)       
+  (def f (make-atom "f"))
+  (def lxy-xy (make-lambda [x y] [z f]))
+  (def tl-apply (make-lambda [] [lxy-xy f]))
+  (is (= [z f] (get-terms (evaluate tl-apply))))
  )

@@ -66,13 +66,13 @@
   (if (atomic? term)
     term
     (if (lambda? term)
-        (apply-lambda term '())
+        (first (apply-lambda term '()))
         (simplify '() (evaluate* (get-terms term))))))
 
 (defn apply-lambda
   [lambda terms]
   (if (empty? terms)
-      (make-lambda (get-bound-vars lambda) (evaluate* (get-terms lambda)))
+      (cons (make-lambda (get-bound-vars lambda) (evaluate* (get-terms lambda))) '()) 
       (let [term (first terms)
             lambda* (evaluate (apply-var lambda term))]
            (if (and (not (atomic? lambda*)) (lambda? lambda*))

@@ -36,7 +36,7 @@
            (cons (replace-free variable arg term) (beta-reduce variable arg (rest terms)))))))
 
 
-(defn render [bound-vars terms]
+(defn simplify [bound-vars terms]
   (if (and (empty? bound-vars) (= 1 (count terms)))
     (first terms)
     (make-lambda bound-vars terms)))
@@ -50,7 +50,7 @@
          lambda
          (let [variable (first vars)
                new-terms (beta-reduce variable arg terms)]
-              (render (rest vars) new-terms)))))
+              (simplify (rest vars) new-terms)))))
            
 (defn evaluate* [terms]
   (if (empty? terms)
@@ -67,7 +67,7 @@
     term
     (if (lambda? term)
         (apply-lambda term '())
-        (render '() (evaluate* (get-terms term))))))
+        (simplify '() (evaluate* (get-terms term))))))
 
 (defn apply-lambda
   [lambda terms]

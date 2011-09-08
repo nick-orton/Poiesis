@@ -2,7 +2,7 @@
   (:use poiesis.forms))
 
 
-(declare replace-free evaluate apply-lambda)
+(declare replace-free evaluate apply-lambda evaluate*)
 
 (defn- replace-free*
   [variable arg parent terms]
@@ -51,7 +51,10 @@
          (let [variable (first vars)
                new-terms (beta-reduce variable arg terms)]
               (simplify (rest vars) new-terms)))))
-           
+          
+(defn eval-non-lamda-expr [term]
+  (simplify '() (evaluate* (get-terms term))))
+
 (defn evaluate* [terms]
   (if (empty? terms)
     '()
@@ -60,22 +63,22 @@
            (cons term (evaluate* (rest terms)))
            (if (lambda? term)
              (apply-lambda term (rest terms))
-             (cons (evaluate term) (evaluate* (rest terms))))))))
+             (cons (eval-non-lamda-expr term)
+                   (evaluate* (rest terms))))))))
     
 (defn evaluate [term]
   (if (atomic? term)
     term
     (if (lambda? term)
-        (first (apply-lambda term '()))
-        (simplify '() (evaluate* (get-terms term))))))
+      (first (apply-lambda term '()))
+      (eval-non-lamda-expr term))))
 
 (defn apply-lambda
   [lambda terms]
   (if (empty? terms)
-      (cons (make-lambda (get-bound-vars lambda) (evaluate* (get-terms lambda))) '()) 
-      (let [term (first terms)
-            lambda* (evaluate (apply-var lambda term))]
+    (cons (make-lambda (get-bound-vars lambda) (evaluate* (get-terms lambda))) '()) 
+    (let [lambda* (evaluate (apply-var lambda (first terms)))]
            (if (and (not (atomic? lambda*)) (lambda? lambda*))
-               (apply-lambda lambda* (rest terms))
-               (cons lambda* (evaluate* (rest terms)))))))  
+             (apply-lambda lambda* (rest terms))
+             (cons lambda* (evaluate* (rest terms)))))))  
                

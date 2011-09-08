@@ -56,7 +56,9 @@
 (defn evaluate [term]
   (if (atomic? term)
     term
-    (make-lambda '() (evaluate* (get-terms term)))))
+    (if (lambda? term)
+        (apply-lambda term '())
+        (make-lambda '() (evaluate* (get-terms term))))))
 
 (defn apply-lambda
   [lambda terms]

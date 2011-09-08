@@ -44,3 +44,7 @@
   (is (= z (nth no-bound-sub-terms 0)))
   (is (= [x y] (get-terms (nth no-bound-sub-terms 1)))))
 
+(deftest test-evaluate
+  (is (= y (evaluate y)))
+  (is (= lxy (evaluate lxy)))       
+         )

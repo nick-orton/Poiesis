@@ -48,13 +48,17 @@
 (def lx-lxx-y (make-lambda [x] [lxx y]))
 
 (deftest test-evaluate
+  ; y -> y
   (is (= y (evaluate y)))
+
+  ; \x.y -> \x.y
   (is (= [x] (get-bound-vars (evaluate lxy))))       
   (is (= [x y] (get-terms (evaluate lxy))))       
-; test that a single lambda gets its guts evaled
+
+  ; \x.(\x.x)y -> \x.y
   (def r-lx-lxx-y (evaluate lx-lxx-y))
   (is (lambda? r-lx-lxx-y))
   (is (= [x]  (get-bound-vars r-lx-lxx-y)))
   (is (= [y]  (get-terms r-lx-lxx-y)))
 
-         )
+ )

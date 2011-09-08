@@ -61,4 +61,12 @@
   (is (= [x]  (get-bound-vars r-lx-lxx-y)))
   (is (= [y]  (get-terms r-lx-lxx-y)))
 
+  ; (x y) -> (x y)       
+  (is (= [] (get-bound-vars (evaluate xy))))
+  (is (= [x y] (get-terms (evaluate xy))))
+   
+  ;( (x y) y) -> ( (x y) y)       
+  (def xy-y (make-lambda '() [xy y]))
+  (is (= y (nth (get-terms (evaluate xy-y)) 1 )))
+  (is (= [x y] (get-terms (nth (get-terms (evaluate xy-y)) 0 ))))
  )

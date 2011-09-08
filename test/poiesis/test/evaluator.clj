@@ -44,7 +44,17 @@
   (is (= z (nth no-bound-sub-terms 0)))
   (is (= [x y] (get-terms (nth no-bound-sub-terms 1)))))
 
+(def lxx (make-lambda [x] [x]))
+(def lx-lxx-y (make-lambda [x] [lxx y]))
+
 (deftest test-evaluate
   (is (= y (evaluate y)))
-  (is (= lxy (evaluate lxy)))       
+  (is (= [x] (get-bound-vars (evaluate lxy))))       
+  (is (= [x y] (get-terms (evaluate lxy))))       
+; test that a single lambda gets its guts evaled
+  (def r-lx-lxx-y (evaluate lx-lxx-y))
+  (is (lambda? r-lx-lxx-y))
+  (is (= [x]  (get-bound-vars r-lx-lxx-y)))
+  (is (= [y]  (get-terms r-lx-lxx-y)))
+
          )

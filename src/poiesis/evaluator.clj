@@ -23,3 +23,14 @@
       (make-lambda 
         (get-bound-vars term) 
         (replace-free* variable arg term (get-terms term)))))
+
+(defn beta-reduce
+  [variable arg terms]
+  (if (empty? terms)
+      '()
+      (let [term (first terms)]
+           (if (atomic? term)
+               (if (eq? variable term)
+                   (cons arg (beta-reduce variable arg (rest terms)))
+                   (cons term (beta-reduce variable arg (rest terms))))
+               (cons (replace-free variable arg term) (beta-reduce variable arg (rest terms)))))))

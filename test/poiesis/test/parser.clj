@@ -4,6 +4,7 @@
   (:use [clojure.test]))
 
 (deftest test-build-expr
-  (is (lambda? (build-expression [[:LAMBDA-BINDING :A :B] :C :D ]))) 
+  (is (lambda? (build-expression '((:LAMBDA-BINDING :A :B) :C :D )))) 
+  (is (not (lambda? (build-expression '(:A :C :D ))))) 
          )
 

@@ -2,11 +2,13 @@
 
 
 (def special-chars #{"(" ")" "[" "]"})
+(def white-space #{" " ""})
 
 (defn- cons-stack-on [stack target]
   (concat  target (conj '() (apply str (reverse stack)))))
 
 (defn build-parse-seq [char-seq]
+  (filter #(not (contains? white-space %)) 
   (loop [c-seq char-seq
          p-seq '()
          stack '()]
@@ -15,11 +17,9 @@
         p-seq
         (cons-stack-on stack p-seq))
       (let [sym (first c-seq)]
-        (cond 
-          (contains? special-chars sym)
+        (if 
+          (or (contains? white-space sym) (contains? special-chars sym))
             (recur (rest c-seq) (cons sym (cons-stack-on stack p-seq)) '())
-          (= " " sym)
-            (recur (rest c-seq) (cons-stack-on stack p-seq) '())
-          :else (recur (rest c-seq) p-seq (cons sym stack)))))))
+            (recur (rest c-seq) p-seq (cons sym stack))))))))
 
 

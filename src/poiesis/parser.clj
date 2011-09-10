@@ -9,8 +9,8 @@
         (make-lambda (rest (first expr-stack)) (rest expr-stack))
         (make-lambda '() expr-stack))))
 
-(defn cons-lambda-bindings [expr-stack]
-  (loop [e-stack expr-stack
+(defn cons-lambda-bindings [stack]
+  (loop [e-stack stack
          l-stack '()]
     (if (empty? e-stack)
         (throw (RuntimeException. "Parse Exception.  Could not find start symbol for variable bindings"))
@@ -18,3 +18,4 @@
           (if (= "[" sym)
             (cons (cons :LAMBDA-BINDING l-stack) (rest e-stack))
             (recur (rest e-stack) (cons sym l-stack)))))))
+

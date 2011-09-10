@@ -24,7 +24,7 @@
      (bound-by? [self lambda]
           (some #(eq? self %) (get-bound-vars lambda)))
     Object
-      (toString [_] (str "Atom:" sym " "))))
+      (toString [_] (str " " sym))))
 
 (defn make-lambda [bound-vars terms]
   (reify
@@ -35,5 +35,5 @@
       (get-bound-vars [_] bound-vars)
       (get-terms [_] terms)
     Object
-     (toString [_] (str "(λ" (apply str bound-vars) ". " (apply str terms) " )"))))
+     (toString [_] (str "(λ" (apply str bound-vars) "." (apply str terms) ")"))))
 

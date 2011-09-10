@@ -16,6 +16,8 @@
 (deftest test-cons-expr
   (is (= "(λ. :A:B )" (str (first (cons-expr '(:B :A "(") )))))
   (is (= "(λ:C. :A:B )" (str (first (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(") )))))
-  (is (= ":D" (str (second (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(" :D) )))))
-)
+  (is (= ":D" (str (second (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(" :D) ))))))
+
+(deftest test-parse-l
+  (is (= "(λ. Atom:A Atom:B  )"  (str (parse-l '("(" "A" "B" ")"))))))
 

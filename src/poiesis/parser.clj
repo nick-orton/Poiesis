@@ -13,9 +13,20 @@
   (loop [e-stack stack
          l-stack '()]
     (if (empty? e-stack)
-        (throw (RuntimeException. "Parse Exception.  Could not find start symbol for variable bindings"))
+        (throw (RuntimeException. "Parse Exception.  Could not find start 
+                                   symbol for variable bindings"))
         (let [sym (first e-stack)]
           (if (= "[" sym)
             (cons (cons :LAMBDA-BINDING l-stack) (rest e-stack))
             (recur (rest e-stack) (cons sym l-stack)))))))
 
+(defn cons-expr [stack]
+  (loop [e-stack '()
+         p-stack stack]
+    (if (empty? p-stack)
+        (throw (RuntimeException. "Parse Exception.  Could not find start 
+                                    symbol for expression"))
+        (let [sym (first p-stack)]
+          (if (= sym "(")
+            (cons (build-expression e-stack) (rest p-stack))
+            (recur (cons sym e-stack)  (rest p-stack))))))) 

@@ -11,3 +11,11 @@
 (deftest test-cons-lambda-bindings
   (is (= '((:LAMBDA-BINDING :A :B)) (cons-lambda-bindings [:B :A "[" ])))
   (is (= '((:LAMBDA-BINDING :A :B) :C) (cons-lambda-bindings [:B :A "[" :C]))))
+
+
+(deftest test-cons-expr
+  (is (= "(λ. :A:B )" (str (first (cons-expr '(:B :A "(") )))))
+  (is (= "(λ:C. :A:B )" (str (first (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(") )))))
+  (is (= ":D" (str (second (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(" :D) )))))
+)
+

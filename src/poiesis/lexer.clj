@@ -23,3 +23,6 @@
             (recur (rest c-seq) p-seq (cons sym stack))))))))
 
 
+
+(defn lex [string]
+  (build-parse-seq (re-seq #"." string)))

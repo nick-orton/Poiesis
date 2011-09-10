@@ -11,3 +11,11 @@
   (is (= ["AB" "CD" ] (build-parse-seq '( "A" "B" " " " " "C" "D"))))
   (is (= ["(" "[" "AB" "]" "CD" ")"] (build-parse-seq '( "(" "[" "A" "B" "]" "C" "D" ")"))))
          )
+
+(deftest test-lex
+  (is (= ["AB"]  (lex "AB")))
+  (is (= ["(" "AB" ")"] (lex  "(AB)")))
+  (is (= ["XY" "(" "AB" ")" "MN"] (lex  "XY(AB)MN")))
+  (is (= ["AB" "CD" ] (lex  "AB CD")))
+  (is (= ["AB" "CD" ] (lex  "AB  CD")))
+  (is (= ["(" "[" "AB" "]" "CD" ")"] (lex  "([AB]CD)"))))

@@ -39,6 +39,6 @@
       (let [sym (first syms)]
         (cond 
           (= ")" sym) (recur (rest syms) (cons-expr stack)) 
-          (= "]" sym) (recur (rest syms) (cons-expr stack))
+          (= "]" sym) (recur (rest syms) (cons-lambda-bindings stack))
           (or (= "[" sym) (= "(" sym)) (recur (rest syms) (cons sym stack))
           :else (recur (rest syms) (cons (make-atom sym) stack)))))))

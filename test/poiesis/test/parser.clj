@@ -9,4 +9,5 @@
          )
 
 (deftest test-cons-lambda-bindings
-  (is (= '((:LAMBDA-BINDING :A :B)) (cons-lambda-bindings [:B :A "[" ]))))
+  (is (= '((:LAMBDA-BINDING :A :B)) (cons-lambda-bindings [:B :A "[" ])))
+  (is (= '((:LAMBDA-BINDING :A :B) :C) (cons-lambda-bindings [:B :A "[" :C]))))

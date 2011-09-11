@@ -2,7 +2,7 @@
   (:use poiesis.forms))
 
 
-(declare replace-free evaluate apply-lambda evaluate*)
+(declare replace-free evaluate eval-lambda evaluate*)
 
 (defn- replace-free*
   [variable arg parent terms]
@@ -52,14 +52,14 @@
          (if (atomic? term)
            (cons term (evaluate* (rest terms)))
            (if (lambda? term)
-             (apply-lambda term (rest terms))
+             (eval-lambda term (rest terms))
              (cons (eval-expr term)
                    (evaluate* (rest terms))))))))
     
 (defn evaluate [term]
   (if (atomic? term)
     term
-      (eval-expr term)))
+    (eval-expr term)))
 
 (defn apply-var
   [lambda arg]
@@ -67,12 +67,12 @@
         new-terms (beta-reduce (first vars) arg (get-terms lambda))]
        (simplify (rest vars) new-terms)))
  
-(defn apply-lambda
+(defn eval-lambda
   [lambda terms]
   (if (empty? terms)
     (cons (eval-expr lambda) '()) 
     (let [lambda* (evaluate (apply-var lambda (first terms)))]
          (if (lambda? lambda*)
-           (apply-lambda lambda* (rest terms))
+           (eval-lambda lambda* (rest terms))
            (cons lambda* (evaluate* (rest terms)))))))  
                

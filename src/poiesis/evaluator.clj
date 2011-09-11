@@ -17,7 +17,7 @@
                  (replace-free* variable arg parent (rest terms)))))))
 
 (defn replace-free
-  [variable arg term]
+  [variable arg term]  ;TODO change to take context
   (if (atomic? term) 
     term
     (make-lambda 
@@ -71,10 +71,10 @@
   [l ts]
   (loop [lambda l
          terms ts]
-  (if (empty? terms)
-    (cons (eval-expr lambda) '()) 
-    (let [lambda* (evaluate (apply-var lambda (first terms)))]
-         (if (lambda? lambda*)
-           (recur lambda* (rest terms))
-           (cons lambda* (evaluate* (rest terms)))))))  )
+    (if (empty? terms)
+      (cons (eval-expr lambda) '()) 
+      (let [lambda* (evaluate (apply-var lambda (first terms)))]
+        (if (lambda? lambda*)
+          (recur lambda* (rest terms))
+          (cons lambda* (evaluate* (rest terms))))))))
                

@@ -35,5 +35,8 @@
       (get-bound-vars [_] bound-vars)
       (get-terms [_] terms)
     Object
-     (toString [_] (str "(λ" (apply str bound-vars) "." (apply str terms) ")"))))
+     (toString [self] 
+               (if (lambda? self)
+                 (str "(" "λ" (apply str bound-vars) "." (apply str terms) ")")
+                 (str "(" (apply str terms) ")")))))
 

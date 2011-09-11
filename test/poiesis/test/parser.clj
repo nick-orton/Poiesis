@@ -14,13 +14,13 @@
 
 
 (deftest test-cons-expr
-  (is (= "(λ.:A:B)" (str (first (cons-expr '(:B :A "(") )))))
+  (is (= "(:A:B)" (str (first (cons-expr '(:B :A "(") )))))
   (is (= "(λ:C.:A:B)" (str (first (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(") )))))
   (is (= ":D" (str (second (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(" :D) ))))))
 
 (deftest test-parse-l
-  (is (= "(λ. A B)"  (str (parse-l '("(" "A" "B" ")")))))
+  (is (= "( A B)"  (str (parse-l '("(" "A" "B" ")")))))
   (is (= "(λ A. A B)"  (str (parse-l '("(" "[""A" "]" "A" "B" ")")))))
-  (is (= "(λ A.(λ. A) B)"  (str (parse-l '("(" "[""A" "]" "(" "A" ")" "B" ")")))))
+  (is (= "(λ A.( A) B)"  (str (parse-l '("(" "[""A" "]" "(" "A" ")" "B" ")")))))
   (is (= "(λ A.(λ A. A) B)"  (str (parse-l '("(" "[""A" "]" "(" "[" "A" "]" "A" ")" "B" ")"))))))
 

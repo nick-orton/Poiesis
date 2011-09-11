@@ -14,7 +14,8 @@ Poiesis is a simple PL based on lambda calculus.
 
 An atom is a string of characters not including ( ) [ ] or whitespace
 
-    AN-ATOM AN0Th3r+aT0m
+    AN-ATOM 
+    AN0Th3r+aT0m
 
 A sequence of atoms is an expression.
 

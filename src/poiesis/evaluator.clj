@@ -42,12 +42,8 @@
     (first terms)
     (make-lambda bound-vars terms)))
 
-(defn eval-lambda [lambda]
+(defn eval-expr [lambda]
   (simplify (get-bound-vars lambda) (evaluate* (get-terms lambda))))
-
-         
-(defn eval-expr [term]
-  (simplify '() (evaluate* (get-terms term))))
 
 (defn evaluate* [terms]
   (if (empty? terms)
@@ -64,7 +60,7 @@
   (if (atomic? term)
     term
     (if (lambda? term)
-      (eval-lambda term )
+      (eval-expr term )
       (eval-expr term))))
 
 (defn apply-var
@@ -76,7 +72,7 @@
 (defn apply-lambda
   [lambda terms]
   (if (empty? terms)
-    (cons (eval-lambda lambda) '()) 
+    (cons (eval-expr lambda) '()) 
     (let [lambda* (evaluate (apply-var lambda (first terms)))]
          (if (lambda? lambda*)
            (apply-lambda lambda* (rest terms))

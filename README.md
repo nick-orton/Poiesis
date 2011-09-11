@@ -18,6 +18,12 @@ install [Leiningen](https://github.com/technomancy/leiningen)
 
 ## Usage
 
+To enter the REPL
+
+    java -jar poiesis-1.0.0-SNAPSHOT-standalone.jar    
+
+To evaluate a single expression
+
     java -jar poiesis-1.0.0-SNAPSHOT-standalone.jar "expression"    
 
 ## Syntax & Semantics

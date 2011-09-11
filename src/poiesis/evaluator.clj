@@ -68,11 +68,13 @@
        (simplify (rest vars) new-terms)))
  
 (defn eval-lambda
-  [lambda terms]
+  [l ts]
+  (loop [lambda l
+         terms ts]
   (if (empty? terms)
     (cons (eval-expr lambda) '()) 
     (let [lambda* (evaluate (apply-var lambda (first terms)))]
          (if (lambda? lambda*)
-           (eval-lambda lambda* (rest terms))
-           (cons lambda* (evaluate* (rest terms)))))))  
+           (recur lambda* (rest terms))
+           (cons lambda* (evaluate* (rest terms)))))))  )
                

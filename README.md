@@ -10,7 +10,17 @@ and time, and man with the world.
 
 Poiesis is a simple PL based on lambda calculus.
 
+## Building
+
+install [Leiningen](https://github.com/technomancy/leiningen)
+
+    lein uberjar
+
 ## Usage
+
+    java -jar poiesis-1.0.0-SNAPSHOT-standalone.jar "expression"    
+
+## Syntax & Semantics
 
 An atom is a string of characters not including ( ) [ ] or whitespace
 

@@ -59,9 +59,7 @@
 (defn evaluate [term]
   (if (atomic? term)
     term
-    (if (lambda? term)
-      (eval-expr term )
-      (eval-expr term))))
+      (eval-expr term)))
 
 (defn apply-var
   [lambda arg]

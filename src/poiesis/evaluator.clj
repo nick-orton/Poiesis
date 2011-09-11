@@ -30,9 +30,8 @@
     '()
     (let [term (first terms)]
          (if (atomic? term)
-           (if (eq? variable term)
-             (cons arg (beta-reduce variable arg (rest terms)))
-             (cons term (beta-reduce variable arg (rest terms))))
+           (let [head (if (eq? variable term) arg term)]
+             (cons head (beta-reduce variable arg (rest terms))))
            (cons (replace-free variable arg term) 
                  (beta-reduce variable arg (rest terms)))))))
 

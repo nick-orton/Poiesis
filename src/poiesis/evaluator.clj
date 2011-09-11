@@ -33,7 +33,8 @@
            (if (eq? variable term)
              (cons arg (beta-reduce variable arg (rest terms)))
              (cons term (beta-reduce variable arg (rest terms))))
-           (cons (replace-free variable arg term) (beta-reduce variable arg (rest terms)))))))
+           (cons (replace-free variable arg term) 
+                 (beta-reduce variable arg (rest terms)))))))
 
 
 (defn simplify [bound-vars terms]
@@ -41,11 +42,11 @@
     (first terms)
     (make-lambda bound-vars terms)))
 
-(defn simplify-lambda [lambda]
+(defn eval-lambda [lambda]
   (simplify (get-bound-vars lambda) (evaluate* (get-terms lambda))))
 
          
-(defn simplify-expr [term]
+(defn eval-expr [term]
   (simplify '() (evaluate* (get-terms term))))
 
 (defn evaluate* [terms]
@@ -56,15 +57,15 @@
            (cons term (evaluate* (rest terms)))
            (if (lambda? term)
              (apply-lambda term (rest terms))
-             (cons (simplify-expr term)
+             (cons (eval-expr term)
                    (evaluate* (rest terms))))))))
     
 (defn evaluate [term]
   (if (atomic? term)
     term
     (if (lambda? term)
-      (simplify-lambda term )
-      (simplify-expr term))))
+      (eval-lambda term )
+      (eval-expr term))))
 
 (defn apply-var
   [lambda arg]
@@ -75,9 +76,9 @@
 (defn apply-lambda
   [lambda terms]
   (if (empty? terms)
-    (cons (simplify-lambda lambda) '()) 
+    (cons (eval-lambda lambda) '()) 
     (let [lambda* (evaluate (apply-var lambda (first terms)))]
-         (if (and (not (atomic? lambda*)) (lambda? lambda*))
+         (if (lambda? lambda*)
            (apply-lambda lambda* (rest terms))
            (cons lambda* (evaluate* (rest terms)))))))  
                

@@ -12,6 +12,9 @@
 (deftest atoms-are-atomic 
   (is (atomic? foo)))
 
+(deftest atoms-are-not-lambdas
+  (is (not (lambda? foo))))
+
 (deftest atoms-have-syms
   (is (= "foo" (get-sym foo))))
 

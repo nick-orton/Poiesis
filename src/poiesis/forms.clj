@@ -18,6 +18,8 @@
   (reify
     Term
     (atomic? [_] true)
+    Expression
+     (lambda? [_] false)
     Atom
      (get-sym [_] sym)
      (eq? [_ other](= sym (get-sym other)))

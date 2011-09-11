@@ -20,6 +20,7 @@
 
 (deftest test-parse-l
   (is (= "( A B)"  (str (parse-l '("(" "A" "B" ")")))))
+  (is (= "( A B)"  (str (parse-l '( "A" "B" )))))
   (is (= "(λ A. A B)"  (str (parse-l '("(" "[""A" "]" "A" "B" ")")))))
   (is (= "(λ A.( A) B)"  (str (parse-l '("(" "[""A" "]" "(" "A" ")" "B" ")")))))
   (is (= "(λ A.(λ A. A) B)"  (str (parse-l '("(" "[""A" "]" "(" "[" "A" "]" "A" ")" "B" ")"))))))

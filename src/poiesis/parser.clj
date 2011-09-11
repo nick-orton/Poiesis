@@ -35,7 +35,9 @@
   (loop [syms symbols
          stack '()]
     (if (empty? syms)
-      (first stack)
+      (if (= 1 (count stack))
+        (first stack)
+        (make-lambda '() (reverse stack)))
       (let [sym (first syms)]
         (cond 
           (= ")" sym) (recur (rest syms) (cons-expr stack)) 

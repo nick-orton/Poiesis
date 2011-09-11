@@ -53,6 +53,18 @@ to the lambda.  This is called beta reduction.
     -> ([Y] Z Y) A
     -> (Z A)
 
+Lambdas can have free variables.  In the Lambda below, X is bound and Y 
+is free.
+
+    ([X] X Y) Z
+    -> (Z Y)
+
+Free variable can be bound by an enclosing Lambda.  In the example below, X is
+bound in the enclosing Lambda, but is free in the enclosed lambda.
+
+    ([X] ([Y] Y X)) Z
+    -> ([Y] Y Z)
+
 ## License
 
 Copyright (C) 2011 Nick Orton

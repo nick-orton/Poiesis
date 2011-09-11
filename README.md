@@ -1,4 +1,4 @@
-# poiesis
+# Poïesis
 
 From Wikipedia:
 
@@ -38,6 +38,9 @@ to the lambda.  This is called beta reduction.
   
     ([X] X X) Y  
     ->  Y Y
+
+    F ([X] X X) Y  
+    ->  F (Y Y)
 
     ([X Y] X X) Z 
     -> ([Y] Z Z)

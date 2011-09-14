@@ -32,12 +32,8 @@
   (is (= "( z(λ x. x y) y)" (str (beta-reduce {x z} lx-lxy-y)) )))
 
 (deftest test-apply-var
-  (def result (get-terms (apply-var lx-lzx-y y)))
-  (is (= y (nth result 0)))
-  (is (= [z y] (get-terms (nth result 1))))
-  (def no-bound-sub-terms (get-terms (apply-var lx-lxy-y z)))
-  (is (= z (nth no-bound-sub-terms 0)))
-  (is (= [x y] (get-terms (nth no-bound-sub-terms 1)))))
+  (is (= "( y(λ z. z y) y)" (str (apply-var lx-lzx-y y))))
+  (is (= "( z(λ x. x y) y)" (str (apply-var lx-lxy-y z)))))
 
 (def lxx (make-lambda [x] [x]))
 (def lx-lxx-y (make-lambda [x] [lxx y]))

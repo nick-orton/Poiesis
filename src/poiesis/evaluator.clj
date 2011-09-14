@@ -26,11 +26,9 @@
 
 (defn replace-free
   [context term]  
-  (if (atomic? term) 
-    term
     (make-lambda 
       (get-bound-vars term) 
-      (replace-free* context term (get-terms term)))))
+      (replace-free* context term (get-terms term))))
 
 (defn beta-reduce ;TODO take context
   [variable arg terms]

@@ -27,13 +27,9 @@
 (def lx-lzx-y (make-lambda [x] [x lzx y]))
 (def lx-lxy-y (make-lambda [x] [x lxy y]))
 
-(deftest test-beta-reduce
-  (is (= "( y(λ z. z y) y)" (str (beta-reduce {x y} lx-lzx-y)) ))
-  (is (= "( z(λ x. x y) y)" (str (beta-reduce {x z} lx-lxy-y)) )))
-
 (deftest test-apply-var
-  (is (= "( y(λ z. z y) y)" (str (apply-var lx-lzx-y y))))
-  (is (= "( z(λ x. x y) y)" (str (apply-var lx-lxy-y z)))))
+  (is (= "( y(λ z. z y) y)" (str (beta-reduce lx-lzx-y y))))
+  (is (= "( z(λ x. x y) y)" (str (beta-reduce lx-lxy-y z)))))
 
 (def lxx (make-lambda [x] [x]))
 (def lx-lxx-y (make-lambda [x] [lxx y]))

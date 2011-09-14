@@ -29,12 +29,6 @@
       (replace-free* context term (get-terms term))))
 
 
-(defn beta-reduce ;TODO inline into apply-var rename apply-var to beta-reduce
-  [context lambda]
-  (replace-free context 
-                (make-lambda (rest (get-bound-vars lambda)) 
-                             (get-terms lambda))))
-
 (defn simplify [bound-vars terms]
   (if (and (empty? bound-vars) (= 1 (count terms)))
     (first terms)
@@ -59,12 +53,14 @@
     term
     (eval-expr term)))
 
-(defn apply-var
+(defn beta-reduce
   [lambda arg]
   (let [vars (get-bound-vars lambda)
         context {(first vars) arg}
-        new-l (beta-reduce context lambda)]
-       (simplify (rest vars) (get-terms new-l))))
+        new-l (replace-free context 
+                (make-lambda (rest (get-bound-vars lambda)) 
+                             (get-terms lambda)))]
+       (simplify (get-bound-vars new-l) (get-terms new-l))))
  
 (defn eval-lambda
   [l ts]
@@ -72,7 +68,7 @@
          terms ts]
     (if (empty? terms)
       (cons (eval-expr lambda) '()) 
-      (let [lambda* (evaluate (apply-var lambda (first terms)))]
+      (let [lambda* (evaluate (beta-reduce lambda (first terms)))]
         (if (lambda? lambda*)
           (recur lambda* (rest terms))
           (cons lambda* (evaluate* (rest terms))))))))

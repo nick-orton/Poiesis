@@ -28,12 +28,12 @@
 (def lx-lxy-y (make-lambda [x] [x lxy y]))
 
 (deftest test-beta-reduce
-  (def result (beta-reduce x y (get-terms lx-lzx-y)))
-  (is (= y (nth result 0)))
-  (is (= [z y] (get-terms (nth result 1))))
-  (def no-bound-sub-terms (beta-reduce x z (get-terms lx-lxy-y)))
-  (is (= z (nth no-bound-sub-terms 0)))
-  (is (= [x y] (get-terms (nth no-bound-sub-terms 1)))))
+  (is (= " y" (str (nth (beta-reduce x y (get-terms lx-lzx-y)) 0))))
+  (is (= "(λ z. z y)" (str (nth (beta-reduce x y (get-terms lx-lzx-y)) 1))))
+  (is (= " y" (str (nth (beta-reduce x y (get-terms lx-lzx-y)) 2))))
+  (is (= " z" (str (nth (beta-reduce x z (get-terms lx-lxy-y)) 0))))
+  (is (= "(λ x. x y)" (str (nth (beta-reduce x z (get-terms lx-lxy-y)) 1))))
+  (is (= " y" (str (nth (beta-reduce x z (get-terms lx-lxy-y)) 2)))))
 
 (deftest test-apply-var
   (def result (get-terms (apply-var lx-lzx-y y)))

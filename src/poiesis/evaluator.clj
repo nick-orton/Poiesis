@@ -15,14 +15,12 @@
   [context parent terms]
   (if (empty? terms)
     '()
-    (let [term (first terms)]
-         (if (atomic? term)
-           (if (bound-by? term parent)
-               (cons term (replace-free* context parent (rest terms)))
-               (cons (substitute-if context term) 
-                     (replace-free* context parent (rest terms))))
-           (cons (replace-free context term) 
-                 (replace-free* context parent (rest terms)))))))
+    (let [term (first terms)
+          head (cond 
+                 (not (atomic? term)) (replace-free context term)
+                 (bound-by? term parent)  term
+                 :else (substitute-if context term))]
+      (cons head (replace-free* context parent (rest terms))))))
 
 (defn replace-free
   [context term]  

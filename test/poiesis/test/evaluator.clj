@@ -16,13 +16,12 @@
 (defn terms-of-2nd-exp [exp] (get-terms (nth (get-terms exp) 1)))
 
 (deftest test-replace-free
-  (is (= [y y z] (get-terms (replace-free {x y} xyz ))))
-  (is (= [x x z] (get-terms (replace-free {y x} xyz ))))
-  (def replaced-x-xy-z (replace-free {y x} x-xy-z))
-  (is (= [x x]   (terms-of-2nd-exp replaced-x-xy-z )))
-  (is (= [x y]   (terms-of-2nd-exp (replace-free {x z} x-lxy-z))))
-  (is (= [x z]   (terms-of-2nd-exp (replace-free {y z} x-lxy-z))))
-  (is (= [y y] (get-terms (replace-free {x y} xy )))))
+  (is (= "( y y z)" (str (replace-free {x y} xyz ))))
+  (is (= "( x x z)" (str (replace-free {y x} xyz ))))
+  (is (= "( x( x x) z)"   (str (replace-free {y x} x-xy-z) )))
+  (is (= "( z(λ x. x y) z)"   (str (replace-free {x z} x-lxy-z))))
+  (is (= "( x(λ x. x z) z)"   (str (replace-free {y z} x-lxy-z))))
+  (is (= "( y y)" (str (replace-free {x y} xy )))))
 
 (def lzx (make-lambda [z] [z x]))
 (def lx-lzx-y (make-lambda [x] [x lzx y]))

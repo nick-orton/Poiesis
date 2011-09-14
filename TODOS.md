@@ -16,6 +16,11 @@
 * on newline, if open parens matches closed parens, eval as expression
 * otherwise get next line and concatinate to prev, do check again
 
+###Long Atoms
+
+* if an atom begins and ends with quotes, then it can have spaces and parens
+  as characters in it.
+
 ----------------------
 
 file evaluator

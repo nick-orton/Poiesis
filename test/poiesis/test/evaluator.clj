@@ -80,3 +80,7 @@
   (def e-lxy-xy-lx-x-z (make-lambda [] [lxy-xy lxx z]))
   (is (= z (evaluate e-lxy-xy-lx-x-z)))
  )
+
+(deftest test-substitute-if
+  (is (= :c (substitue-if {:a :b} :c)))
+  (is (= :b (substitue-if {:a :b} :a))))

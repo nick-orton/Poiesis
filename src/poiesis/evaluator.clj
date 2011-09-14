@@ -24,6 +24,13 @@
       (get-bound-vars term) 
       (replace-free* variable arg term (get-terms term)))))
 
+; TODO Test and use
+(defn substitue-if [context atm]
+  (let [replacement (context atm)]
+    (if (nil? replacement)
+      atm
+      replacement)))
+
 (defn beta-reduce
   [variable arg terms]
   (if (empty? terms)

@@ -16,13 +16,13 @@
 (defn terms-of-2nd-exp [exp] (get-terms (nth (get-terms exp) 1)))
 
 (deftest test-replace-free
-  (is (= [y y z] (get-terms (replace-free x y xyz ))))
-  (is (= [x x z] (get-terms (replace-free y x xyz ))))
-  (def replaced-x-xy-z (replace-free y x x-xy-z))
+  (is (= [y y z] (get-terms (replace-free {x y} xyz ))))
+  (is (= [x x z] (get-terms (replace-free {y x} xyz ))))
+  (def replaced-x-xy-z (replace-free {y x} x-xy-z))
   (is (= [x x]   (terms-of-2nd-exp replaced-x-xy-z )))
-  (is (= [x y]   (terms-of-2nd-exp (replace-free x z x-lxy-z))))
-  (is (= [x z]   (terms-of-2nd-exp (replace-free y z x-lxy-z))))
-  (is (= [y y] (get-terms (replace-free x y xy )))))
+  (is (= [x y]   (terms-of-2nd-exp (replace-free {x z} x-lxy-z))))
+  (is (= [x z]   (terms-of-2nd-exp (replace-free {y z} x-lxy-z))))
+  (is (= [y y] (get-terms (replace-free {x y} xy )))))
 
 (def lzx (make-lambda [z] [z x]))
 (def lx-lzx-y (make-lambda [x] [x lzx y]))
@@ -82,5 +82,5 @@
  )
 
 (deftest test-substitute-if
-  (is (= :c (substitue-if {:a :b} :c)))
-  (is (= :b (substitue-if {:a :b} :a))))
+  (is (= :c (substitute-if {:a :b} :c)))
+  (is (= :b (substitute-if {:a :b} :a))))

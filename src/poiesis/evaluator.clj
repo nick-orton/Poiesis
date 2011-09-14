@@ -4,32 +4,33 @@
 
 (declare replace-free evaluate eval-lambda evaluate*)
 
-(defn- replace-free*
-  [variable arg parent terms]
-  (if (empty? terms)
-    '()
-    (let [term (first terms)]
-         (if (atomic? term)
-           (if (and (not (bound-by? term parent))(eq? variable term))
-               (cons arg (replace-free* variable arg parent (rest terms)))
-               (cons term (replace-free* variable arg parent (rest terms))))
-           (cons (replace-free variable arg term) 
-                 (replace-free* variable arg parent (rest terms)))))))
-
-(defn replace-free
-  [variable arg term]  ;TODO change to take context
-  (if (atomic? term) 
-    term
-    (make-lambda 
-      (get-bound-vars term) 
-      (replace-free* variable arg term (get-terms term)))))
-
-; TODO Test and use
-(defn substitue-if [context atm]
+(defn substitute-if [context atm]
   (let [replacement (context atm)]
     (if (nil? replacement)
       atm
       replacement)))
+
+
+(defn- replace-free*
+  [context parent terms]
+  (if (empty? terms)
+    '()
+    (let [term (first terms)]
+         (if (atomic? term)
+           (if (bound-by? term parent)
+               (cons term (replace-free* context parent (rest terms)))
+               (cons (substitute-if context term) 
+                     (replace-free* context parent (rest terms))))
+           (cons (replace-free context term) 
+                 (replace-free* context parent (rest terms)))))))
+
+(defn replace-free
+  [context term]  ;TODO change to take context
+  (if (atomic? term) 
+    term
+    (make-lambda 
+      (get-bound-vars term) 
+      (replace-free* context term (get-terms term)))))
 
 (defn beta-reduce
   [variable arg terms]
@@ -39,7 +40,7 @@
          (if (atomic? term)
            (let [head (if (eq? variable term) arg term)]
              (cons head (beta-reduce variable arg (rest terms))))
-           (cons (replace-free variable arg term) 
+           (cons (replace-free {variable arg} term) 
                  (beta-reduce variable arg (rest terms)))))))
 
 

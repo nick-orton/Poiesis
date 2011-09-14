@@ -28,16 +28,20 @@
       (get-bound-vars term) 
       (replace-free* context term (get-terms term))))
 
+;REFACTORING:
+;  remove beta-reduce
+;  replace with (replace-free context (make-l (rest bound) terms))
+
 (defn beta-reduce ;TODO take context
   [variable arg terms]
   (if (empty? terms)
     '()
-    (let [term (first terms)]
-         (if (atomic? term)
-           (let [head (if (eq? variable term) arg term)]
-             (cons head (beta-reduce variable arg (rest terms))))
-           (cons (replace-free {variable arg} term) 
-                 (beta-reduce variable arg (rest terms)))))))
+    (let [term (first terms)
+          context {variable arg} ; TODO move to fun param
+          head (if (not (atomic? term)) 
+                 (replace-free context term)
+                 (substitute-if context term))]
+      (cons head (beta-reduce variable arg (rest terms))))))
 
 
 (defn simplify [bound-vars terms]

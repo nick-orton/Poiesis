@@ -29,7 +29,7 @@
       (replace-free* context term (get-terms term))))
 
 
-(defn beta-reduce ;TODO take context
+(defn beta-reduce ;TODO inline into apply-var rename apply-var to beta-reduce
   [context lambda]
   (replace-free context 
                 (make-lambda (rest (get-bound-vars lambda)) 

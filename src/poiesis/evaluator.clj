@@ -28,21 +28,12 @@
       (get-bound-vars term) 
       (replace-free* context term (get-terms term))))
 
-;REFACTORING:
-;  remove beta-reduce
-;  replace with (replace-free context (make-l (rest bound) terms))
 
 (defn beta-reduce ;TODO take context
-  [variable arg terms]
-  (if (empty? terms)
-    '()
-    (let [term (first terms)
-          context {variable arg} ; TODO move to fun param
-          head (if (not (atomic? term)) 
-                 (replace-free context term)
-                 (substitute-if context term))]
-      (cons head (beta-reduce variable arg (rest terms))))))
-
+  [context lambda]
+  (replace-free context 
+                (make-lambda (rest (get-bound-vars lambda)) 
+                             (get-terms lambda))))
 
 (defn simplify [bound-vars terms]
   (if (and (empty? bound-vars) (= 1 (count terms)))
@@ -71,8 +62,9 @@
 (defn apply-var
   [lambda arg]
   (let [vars (get-bound-vars lambda)
-        new-terms (beta-reduce (first vars) arg (get-terms lambda))]
-       (simplify (rest vars) new-terms)))
+        context {(first vars) arg}
+        new-l (beta-reduce context lambda)]
+       (simplify (rest vars) (get-terms new-l))))
  
 (defn eval-lambda
   [l ts]

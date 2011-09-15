@@ -21,6 +21,11 @@
 * if an atom begins and ends with quotes, then it can have spaces and parens
   as characters in it.
 
+###Magic Function
+
+* Takes an atom and returns an expression of all the characters of the atom as
+  atoms
+
 ----------------------
 
 file evaluator

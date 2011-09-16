@@ -32,5 +32,6 @@
   (def pair-of-atoms  (get-terms (first (parse-l '("A" "A") {}))))
   (is (= (first pair-of-atoms) (second pair-of-atoms)))
   (def A (make-atom "A"))
-  (is (= A (first (get-terms (first (parse-l '("A" "B") {"A" A})))))))
+  (is (= A (first (parse-l '("A") {"A" A}))))
+  (is (= #{"A" "B"} (set(keys (second (parse-l '("A" "B") {"A" A})))))))
 

@@ -28,8 +28,9 @@
   (def lzx (make-lambda [z] [z x]))
   (def lx-lzx-y (make-lambda [x] [x lzx y]))
   (def lx-lxy-y (make-lambda [x] [x lxy y]))
-  (is (= "( y(λ z. z y) y)" (str (beta-reduce lx-lzx-y y))))
-  (is (= "( z(λ x. x y) y)" (str (beta-reduce lx-lxy-y z)))))
+  (is (= "( y(λ z. z y) y)" (str (beta-reduce lx-lzx-y y {}))))
+  (is (= "( z(λ x. x f) f)" (str (beta-reduce lx-lxy-y z {y f}))))
+  (is (= "( z(λ x. x y) y)" (str (beta-reduce lx-lxy-y z {})))))
 
 (def lxx (make-lambda [x] [x]))
 (def lx-lxx-y (make-lambda [x] [lxx y]))

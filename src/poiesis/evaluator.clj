@@ -54,10 +54,10 @@
     (eval-expr term)))
 
 (defn beta-reduce
-  [lambda arg]
+  [lambda arg context]
   (let [vars (get-bound-vars lambda)
-        context {(first vars) arg}
-        new-l (replace-free context 
+        context* (assoc context (first vars) arg)
+        new-l (replace-free context* 
                 (make-lambda (rest (get-bound-vars lambda)) 
                              (get-terms lambda)))]
        (simplify (get-bound-vars new-l) (get-terms new-l))))
@@ -68,7 +68,8 @@
          terms ts]
     (if (empty? terms)
       (cons (eval-expr lambda) '()) 
-      (let [lambda* (evaluate (beta-reduce lambda (first terms)))]
+      (let [context {}
+            lambda* (evaluate (beta-reduce lambda (first terms) context))]
         (if (lambda? lambda*)
           (recur lambda* (rest terms))
           (cons lambda* (evaluate* (rest terms))))))))

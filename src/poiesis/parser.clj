@@ -33,14 +33,24 @@
 
 (defn parse-l [symbols]
   (loop [syms symbols
-         stack '()]
+         stack '()
+         atoms {}]
     (if (empty? syms)
       (if (= 1 (count stack))
         (first stack)
         (make-lambda '() (reverse stack)))
       (let [sym (first syms)]
         (cond 
-          (= ")" sym) (recur (rest syms) (cons-expr stack)) 
-          (= "]" sym) (recur (rest syms) (cons-lambda-bindings stack))
-          (or (= "[" sym) (= "(" sym)) (recur (rest syms) (cons sym stack))
-          :else (recur (rest syms) (cons (make-atom sym) stack)))))))
+          (= ")" sym) (recur (rest syms) (cons-expr stack) atoms) 
+          (= "]" sym) (recur (rest syms) (cons-lambda-bindings stack) atoms)
+          (or (= "[" sym) (= "(" sym)) (recur (rest syms) (cons sym stack) atoms)
+          :else 
+            (let [existing  (atoms sym)
+                  is-new-atom? (nil? existing)
+                  atm (if is-new-atom? 
+                          (make-atom sym)
+                          existing)
+                  atoms* (if is-new-atom?
+                           (assoc atoms sym atm)
+                           atoms)]
+            (recur (rest syms) (cons atm stack) atoms*)))))))

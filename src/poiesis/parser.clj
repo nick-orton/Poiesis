@@ -31,26 +31,30 @@
             (cons (build-expression e-stack) (rest p-stack))
             (recur (cons sym e-stack)  (rest p-stack))))))) 
 
-(defn parse-l [symbols]
+
+;TODO  take dictionary as param and return dictionary with lambda
+(defn parse-l [symbols dict ]
   (loop [syms symbols
          stack '()
-         atoms {}]
+         dictionary {}]
     (if (empty? syms)
       (if (= 1 (count stack))
         (first stack)
         (make-lambda '() (reverse stack)))
       (let [sym (first syms)]
         (cond 
-          (= ")" sym) (recur (rest syms) (cons-expr stack) atoms) 
-          (= "]" sym) (recur (rest syms) (cons-lambda-bindings stack) atoms)
-          (or (= "[" sym) (= "(" sym)) (recur (rest syms) (cons sym stack) atoms)
+          (= ")" sym) (recur (rest syms) (cons-expr stack) dictionary) 
+          (= "]" sym) 
+            (recur (rest syms) (cons-lambda-bindings stack) dictionary)
+          (or (= "[" sym) (= "(" sym)) 
+            (recur (rest syms) (cons sym stack) dictionary)
           :else 
-            (let [existing  (atoms sym)
+            (let [existing  (dictionary sym)
                   is-new-atom? (nil? existing)
                   atm (if is-new-atom? 
                           (make-atom sym)
                           existing)
                   atoms* (if is-new-atom?
-                           (assoc atoms sym atm)
-                           atoms)]
+                           (assoc dictionary sym atm)
+                           dictionary)]
             (recur (rest syms) (cons atm stack) atoms*)))))))

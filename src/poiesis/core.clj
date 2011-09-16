@@ -5,9 +5,12 @@
   (:use poiesis.evaluator)
   (:gen-class))
 
-
+;TODO add dictionary and context
+;     parser takes dictionary and returns atoms to add to it
+;     evaluator takes context
 (defn compute [string]
-  (str (evaluate (parse-l (lex string)))))
+  (let [expression (parse-l (lex string) {})]
+  (str (evaluate expression))))
 
 (defn prompt []
   (let [console (. System console)]

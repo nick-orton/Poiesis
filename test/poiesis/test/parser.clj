@@ -19,15 +19,16 @@
   (is (= ":D" (str (second (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(" :D) ))))))
 
 (deftest test-parse-l
-  (is (= "( A B)"  (str (parse-l '("(" "A" "B" ")")))))
-  (is (= "( A B)"  (str (parse-l '( "A" "B" )))))
-  (is (= "(λ A. A B)"  (str (parse-l '("(" "[""A" "]" "A" "B" ")")))))
+  (is (= "( A B)"  (str (parse-l '("(" "A" "B" ")") {}))))
+  (is (= "( A B)"  (str (parse-l '("(" "A" "B" ")") {}))))
+  (is (= "( A B)"  (str (parse-l '( "A" "B") {}))))
+  (is (= "(λ A. A B)"  (str (parse-l '("(" "[""A" "]" "A" "B" ")") {}))))
   (is (= "(λ A.( A) B)"  
-         (str (parse-l '("(" "[""A" "]" "(" "A" ")" "B" ")")))))
+         (str (parse-l '("(" "[""A" "]" "(" "A" ")" "B" ")") {}))))
   (is (= "(λ A.(λ A. A) B)" 
-         (str (parse-l '("(" "[""A" "]" "(" "[" "A" "]" "A" ")" "B" ")"))))))
+         (str (parse-l '("(" "[""A" "]" "(" "[" "A" "]" "A" ")" "B" ")") {})))))
 
 (deftest atoms-are-flyweights
-  (def pair-of-atoms  (get-terms (parse-l '("A" "A"))))
+  (def pair-of-atoms  (get-terms (parse-l '("A" "A") {})))
   (is (= (first pair-of-atoms) (second pair-of-atoms))))
 

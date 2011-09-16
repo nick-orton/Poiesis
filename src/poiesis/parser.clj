@@ -32,7 +32,6 @@
             (recur (cons sym e-stack)  (rest p-stack))))))) 
 
 
-;TODO  take dictionary as param and return dictionary with lambda
 (defn parse-l [symbols dict ]
   (loop [syms symbols
          stack '()

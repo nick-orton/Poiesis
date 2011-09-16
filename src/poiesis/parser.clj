@@ -39,8 +39,8 @@
          dictionary dict]
     (if (empty? syms)
       (if (= 1 (count stack))
-        (first stack)
-        (make-lambda '() (reverse stack)))
+        [(first stack) dictionary]
+        [(make-lambda '() (reverse stack)) dictionary])
       (let [sym (first syms)]
         (cond 
           (= ")" sym) (recur (rest syms) (cons-expr stack) dictionary) 

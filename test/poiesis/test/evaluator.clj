@@ -6,6 +6,7 @@
 (def x (make-atom "x"))
 (def y (make-atom "y"))
 (def z (make-atom "z"))
+(def f (make-atom "f"))
 (def xy (make-lambda [] [x y]))
 (def lxy (make-lambda [x] [x y]))
 (def yy (make-lambda [] [y y]))
@@ -23,11 +24,10 @@
   (is (= "( x(λ x. x z) z)"   (str (replace-free {y z} x-lxy-z))))
   (is (= "( y y)" (str (replace-free {x y} xy )))))
 
-(def lzx (make-lambda [z] [z x]))
-(def lx-lzx-y (make-lambda [x] [x lzx y]))
-(def lx-lxy-y (make-lambda [x] [x lxy y]))
-
 (deftest test-apply-var
+  (def lzx (make-lambda [z] [z x]))
+  (def lx-lzx-y (make-lambda [x] [x lzx y]))
+  (def lx-lxy-y (make-lambda [x] [x lxy y]))
   (is (= "( y(λ z. z y) y)" (str (beta-reduce lx-lzx-y y))))
   (is (= "( z(λ x. x y) y)" (str (beta-reduce lx-lxy-y z)))))
 
@@ -39,33 +39,27 @@
   (is (= y (evaluate y)))
 
   ; \x.y -> \x.y
-  (is (= [x] (get-bound-vars (evaluate lxy))))       
-  (is (= [x y] (get-terms (evaluate lxy))))       
+  (is (= "(λ x. x y)" (str (evaluate lxy))))       
 
   ; \x.(\x.x)y -> \x.y
   (def r-lx-lxx-y (evaluate lx-lxx-y))
   (is (lambda? r-lx-lxx-y))
-  (is (= [x]  (get-bound-vars r-lx-lxx-y)))
-  (is (= [y]  (get-terms r-lx-lxx-y)))
+  (is (= "(λ x. y)"  (str r-lx-lxx-y)))
 
   ; (x y) -> (x y)       
-  (is (= [] (get-bound-vars (evaluate xy))))
-  (is (= [x y] (get-terms (evaluate xy))))
+  (is (= "( x y)" (str (evaluate xy))))
    
   ;( (x y) y) -> ( (x y) y)       
   (def xy-y (make-lambda '() [xy y]))
-  (is (= y (nth (get-terms (evaluate xy-y)) 1 )))
-  (is (= [x y] (get-terms (nth (get-terms (evaluate xy-y)) 0 ))))
+  (is (= "(( x y) y)" (str (evaluate xy-y)) ))
 
   ; ( (\xy.xy) z f) -> (z f)       
-  (def f (make-atom "f"))
   (def lxy-xy (make-lambda [x y] [x y]))
   (def tl-apply (make-lambda [] [lxy-xy z f]))
-  (is (= [z f] (get-terms (evaluate tl-apply))))
+  (is (= "( z f)" (str (evaluate tl-apply))))
 
   ; ((\xy.xy)(\x.x)z) -> z       
-  (def e-lxy-xy-lx-x-z (make-lambda [] [lxy-xy lxx z]))
-  (is (= z (evaluate e-lxy-xy-lx-x-z)))
+  (is (= z (evaluate (make-lambda [] [lxy-xy lxx z]))))
  )
 
 (deftest test-substitute-if

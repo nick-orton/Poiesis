@@ -30,5 +30,7 @@
 
 (deftest atoms-are-flyweights
   (def pair-of-atoms  (get-terms (parse-l '("A" "A") {})))
-  (is (= (first pair-of-atoms) (second pair-of-atoms))))
+  (is (= (first pair-of-atoms) (second pair-of-atoms)))
+  (def A (make-atom "A"))
+  (is (= A (first (get-terms (parse-l '("A" "B") {"A" A}))))))
 

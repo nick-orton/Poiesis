@@ -36,7 +36,7 @@
 (defn parse-l [symbols dict ]
   (loop [syms symbols
          stack '()
-         dictionary {}]
+         dictionary dict]
     (if (empty? syms)
       (if (= 1 (count stack))
         (first stack)

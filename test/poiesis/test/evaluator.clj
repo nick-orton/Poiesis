@@ -39,7 +39,6 @@
   ; y -> y
   (is (= y (evaluate y {})))
   (is (= z (evaluate y {y z})))
-  
 
   ; \x.y -> \x.y
   (is (= "(λ x. x y)" (str (evaluate lxy {}))))       
@@ -70,8 +69,7 @@
 
   ; ((\xy.xy)(\x.x)z) -> z       
   (is (= z (evaluate (make-lambda [] [lxy-xy lxx z]) {})))
-  (is (= f (evaluate (make-lambda [] [lxy-xy lxx z]) {z f})))
- )
+  (is (= f (evaluate (make-lambda [] [lxy-xy lxx z]) {z f}))))
 
 (deftest test-substitute-if
   (is (= :c (substitute-if {:a :b} :c)))

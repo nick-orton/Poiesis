@@ -8,7 +8,7 @@
   (get-bound-vars [lambda])
   (get-terms [expression]))
 
-(defprotocol Atom
+(defprotocol Word
   (bound-by? [self expression])
   (get-sym [self])
   (eq? [self other]))
@@ -20,7 +20,7 @@
     (atomic? [_] true)
     Expression
      (lambda? [_] false)
-    Atom
+    Word
      (get-sym [_] sym)
      (eq? [_ other](= sym (get-sym other)))
      (bound-by? [self lambda]

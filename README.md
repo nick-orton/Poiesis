@@ -28,12 +28,12 @@ To evaluate a single expression
 
 ## Syntax & Semantics
 
-An atom is a string of characters not including ( ) [ ] or whitespace
+An word is a string of characters not including ( ) [ ] or whitespace
 
-    AN-ATOM 
-    AN0Th3r+aT0m
+    A-word 
+    AN0Th3r+w0rD
 
-A sequence of atoms is an expression.
+A sequence of words is an expression.
 
     term1 term2
 
@@ -45,7 +45,7 @@ An expression can contain other expressions
 
     T1 ( T2 T3 T4 )
 
-An expression may begin with variable bindings.  This kind of expression is
+An expression may begin with word bindings.  This kind of expression is
 called a Lambda
 
     ([X] X X)

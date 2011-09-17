@@ -70,6 +70,7 @@
 
   ; ((\xy.xy)(\x.x)z) -> z       
   (is (= z (evaluate (make-lambda [] [lxy-xy lxx z]) {})))
+  (is (= f (evaluate (make-lambda [] [lxy-xy lxx z]) {z f})))
  )
 
 (deftest test-substitute-if

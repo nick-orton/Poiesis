@@ -53,6 +53,7 @@
 
   ; (x y) -> (x y)       
   (is (= "( x y)" (str (evaluate xy {}))))
+  (is (= "( z y)" (str (evaluate xy {x z}))))
    
   ;( (x y) y) -> ( (x y) y)       
   (def xy-y (make-lambda '() [xy y]))

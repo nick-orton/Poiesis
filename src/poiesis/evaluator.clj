@@ -42,10 +42,11 @@
     '()
     (let [term (first terms)]
          (if (word? term)
-             (let [term* (substitute-if context term)]
+             (let [term* (substitute-if context term)
+                   result (cons term* (evaluate* (rest terms) context))]
                (if (= term term*)
-                 (cons term* (evaluate* (rest terms) context)) 
-                 (evaluate* (cons term* (evaluate* (rest terms) context)) context)))
+                 result 
+                 (evaluate* result context)))
            (if (lambda? term)
              (eval-lambda term (rest terms) context)
              (cons (eval-expr term context)

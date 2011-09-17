@@ -41,16 +41,16 @@
   (if (empty? terms)
     '()
     (let [term (first terms)]
-         (if (word? term)
-             (let [term* (substitute-if context term)
-                   result (cons term* (evaluate* (rest terms) context))]
-               (if (= term term*)
-                 result 
-                 (evaluate* result context)))
-           (if (lambda? term)
-             (eval-lambda term (rest terms) context)
-             (cons (eval-expr term context)
-                   (evaluate* (rest terms) context)))))))
+      (if (word? term)
+        (let [term* (substitute-if context term)
+              result (cons term* (evaluate* (rest terms) context))]
+          (if (= term term*)
+            result 
+            (evaluate* result context)))
+        (if (lambda? term)
+          (eval-lambda term (rest terms) context)
+          (cons (eval-expr term context)
+                (evaluate* (rest terms) context)))))))
     
 (defn evaluate [term context]
   (if (word? term)
@@ -62,9 +62,9 @@
   (let [vars (get-bound-vars lambda)
         context* (assoc context (first vars) arg)
         new-l (replace-free context* 
-                (make-lambda (rest (get-bound-vars lambda)) 
-                             (get-terms lambda)))]
-       (simplify (get-bound-vars new-l) (get-terms new-l) context)))
+                            (make-lambda (rest (get-bound-vars lambda)) 
+                                         (get-terms lambda)))]
+    (simplify (get-bound-vars new-l) (get-terms new-l) context)))
  
 (defn eval-lambda
   [l ts context]

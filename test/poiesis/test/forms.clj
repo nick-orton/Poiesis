@@ -3,7 +3,7 @@
   (:use [clojure.test]))
 
 
-(def foo (make-atom "foo"))
+(def foo (make-word "foo"))
 
 (def lambda-expr (make-lambda [foo] []))
 (def empty-expression (make-lambda [] []))
@@ -19,8 +19,8 @@
   (is (= "foo" (get-sym foo))))
 
 (deftest atoms-are-eq-if-their-syms-are-equal
-  (is (eq? (make-atom "foo") foo))
-  (is (not (eq? (make-atom "bar") foo))))
+  (is (eq? (make-word "foo") foo))
+  (is (not (eq? (make-word "bar") foo))))
 
 (deftest atoms-are-bound-by-an-expression-if-they-are-in-the-bound-vars
   (is (bound-by? foo lambda-expr))

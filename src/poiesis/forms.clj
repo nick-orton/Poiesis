@@ -14,7 +14,7 @@
   (eq? [self other]))
 
 
-(defn make-atom [sym]
+(defn make-word [sym]
   (reify
     Term
     (word? [_] true)

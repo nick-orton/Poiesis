@@ -51,7 +51,7 @@
             (let [existing  (dictionary sym)
                   is-new-atom? (nil? existing)
                   atm (if is-new-atom? 
-                          (make-atom sym)
+                          (make-word sym)
                           existing)
                   atoms* (if is-new-atom?
                            (assoc dictionary sym atm)

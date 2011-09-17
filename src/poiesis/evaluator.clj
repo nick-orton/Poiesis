@@ -29,21 +29,23 @@
       (replace-free* context term (get-terms term))))
 
 
-(defn simplify [bound-vars terms]
+(defn simplify [bound-vars terms context]
   (if (and (empty? bound-vars) (= 1 (count terms)))
     (first terms)
     (make-lambda bound-vars terms)))
 
 (defn eval-expr [expr context]
-  (simplify (get-bound-vars expr) (evaluate* (get-terms expr) context)))
+  (simplify (get-bound-vars expr) (evaluate* (get-terms expr) context) context))
 
 (defn evaluate* [terms context]
   (if (empty? terms)
     '()
     (let [term (first terms)]
          (if (word? term)
-           (cons (substitute-if context term) 
-                 (evaluate* (rest terms) context))
+             (let [term* (substitute-if context term)]
+               (if (= term term*)
+                 (cons term* (evaluate* (rest terms) context)) 
+                 (evaluate* (cons term* (evaluate* (rest terms) context)) context)))
            (if (lambda? term)
              (eval-lambda term (rest terms) context)
              (cons (eval-expr term context)
@@ -61,7 +63,7 @@
         new-l (replace-free context* 
                 (make-lambda (rest (get-bound-vars lambda)) 
                              (get-terms lambda)))]
-       (simplify (get-bound-vars new-l) (get-terms new-l))))
+       (simplify (get-bound-vars new-l) (get-terms new-l) context)))
  
 (defn eval-lambda
   [l ts context]

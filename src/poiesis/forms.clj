@@ -1,10 +1,10 @@
 (ns poiesis.forms)
 
 (defprotocol Term
+  (lambda? [expression])
   (word? [term]))
 
 (defprotocol Expression
-  (lambda? [expression])
   (get-bound-vars [lambda])
   (get-terms [expression]))
 
@@ -18,8 +18,7 @@
   (reify
     Term
     (word? [_] true)
-    Expression
-     (lambda? [_] false)
+    (lambda? [_] false)
     Word
      (get-sym [_] sym)
      (eq? [_ other](= sym (get-sym other)))
@@ -32,8 +31,8 @@
   (reify
     Term
       (word? [_] false)
-    Expression
       (lambda? [_] (not (empty? bound-vars)))
+    Expression
       (get-bound-vars [_] bound-vars)
       (get-terms [_] terms)
     Object

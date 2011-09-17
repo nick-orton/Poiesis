@@ -40,11 +40,12 @@
 (defn evaluate* [terms]
   (if (empty? terms)
     '()
-    (let [term (first terms)]
+    (let [term (first terms)
+          context {}]
          (if (atomic? term)
            (cons term (evaluate* (rest terms)))
            (if (lambda? term)
-             (eval-lambda term (rest terms))
+             (eval-lambda term (rest terms) context)
              (cons (eval-expr term)
                    (evaluate* (rest terms))))))))
     
@@ -63,13 +64,12 @@
        (simplify (get-bound-vars new-l) (get-terms new-l))))
  
 (defn eval-lambda
-  [l ts]
+  [l ts context]
   (loop [lambda l
          terms ts]
     (if (empty? terms)
       (cons (eval-expr lambda) '()) 
-      (let [context {}
-            lambda* (evaluate (beta-reduce lambda (first terms) context))]
+      (let [lambda* (evaluate (beta-reduce lambda (first terms) context))]
         (if (lambda? lambda*)
           (recur lambda* (rest terms))
           (cons lambda* (evaluate* (rest terms))))))))

@@ -10,7 +10,6 @@
       atm
       replacement)))
 
-
 (defn- replace-free*
   [context parent terms]
   (if (empty? terms)
@@ -22,43 +21,46 @@
                  :else (substitute-if context term))]
       (cons head (replace-free* context parent (rest terms))))))
 
-(defn replace-free
-  [context term]  
-    (make-lambda 
-      (get-bound-vars term) 
-      (replace-free* context term (get-terms term))))
-
 
 (defn simplify [bound-vars terms context]
   (if (and (empty? bound-vars) (= 1 (count terms)))
     (first terms)
     (make-lambda bound-vars terms)))
 
+(defn- bind-to-self [context vars]
+  (loop [c context
+         bvs vars] 
+    (if (empty? bvs) c
+      (recur (assoc c (first bvs) (first bvs)) (rest bvs)))))
+
 (defn eval-expr [expr contxt]
   (let [bound-vars (get-bound-vars expr)
-        context (loop [c contxt
-                       bvs bound-vars] 
-                  (if (empty? bvs)
-                    c
-                    (recur (assoc c (first bvs) (first bvs)) (rest bvs))))]
+        context (bind-to-self contxt bound-vars)]
   (simplify (get-bound-vars expr) (evaluate* (get-terms expr) context) context)))
 
-;TODO refact inner if outside with a cond
 (defn evaluate* [terms context]
   (if (empty? terms)
     '()
     (let [term (first terms)]
-      (if (word? term)
-        (let [term* (substitute-if context term)
-              result (cons term* (evaluate* (rest terms) context))]
-          (if (= term term*)
-            result 
-            (evaluate* result context)))
-        (if (lambda? term)
+      (cond 
+        (word? term)
+          (let [term* (substitute-if context term)
+                result (cons term* (evaluate* (rest terms) context))]
+            (if (= term term*)
+              result 
+              (evaluate* result context)))
+        (lambda? term)
           (eval-lambda term (rest terms) context)
+        :else 
           (cons (eval-expr term context)
-                (evaluate* (rest terms) context)))))))
-    
+                (evaluate* (rest terms) context))))))
+
+ (defn replace-free
+  [context term]  
+    (make-lambda 
+      (get-bound-vars term) 
+      (replace-free* context term (get-terms term))))
+   
 (defn evaluate [term context]
   (if (word? term)
     (substitute-if context term)

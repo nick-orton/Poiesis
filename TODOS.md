@@ -1,11 +1,5 @@
 #TODOs
 
-###Add a global context in a repl session
-
-* when atom is evaluated for substitution, change if in context
-* every top level expression evaluated in repl gets saved to an 
-  sequential atom in context $1, $2, $3, etc
-
 ###Catch Exceptions
 
 * give error message

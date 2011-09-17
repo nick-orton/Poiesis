@@ -8,14 +8,13 @@
 ;TODO add dictionary and context
 ;     parser takes dictionary and returns words to add to it
 ;     evaluator takes context
-(defn compute [string]
-  (let [dictionary {}
-        context {}
-        parsed (parse-l (lex string) dictionary)
-        expression (first parsed)]
+(defn- compute [string context dictionary]
+  (let [parsed (parse-l (lex string) @dictionary)
+        expression (first parsed)
+        dictionary* (second parsed)]
 ;TODO reset dictionary with second from parsed
-
-  (str (evaluate expression context))))
+  (swap! dictionary (fn [_] dictionary*))
+  (evaluate expression context)))
 
 (defn prompt []
   (let [console (. System console)]
@@ -23,12 +22,19 @@
 
 (defn repl []
     (println "Welcome to the Poiesis Repl. Type \"exit\" to leave.")  
-    (loop [input (prompt)]
+    (let [context (atom {})
+          dictionary (atom {})]
+    (loop [input (prompt)
+           number 0]
       (if (= "exit" input)
         (println "bye")
-        (do
-          (println "->" (compute input))
-          (recur (prompt))))))
+        (let [computation (compute input @context dictionary)
+              sym (str "$" number)
+              word (make-word sym)]
+          (swap! dictionary assoc sym word)
+          (swap! context assoc word computation)  
+          (println (str word ">" computation))
+          (recur (prompt) (inc number)))))))
 
 (defn -main [& args]
     (if (empty? args)

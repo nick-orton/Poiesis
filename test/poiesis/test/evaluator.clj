@@ -37,30 +37,30 @@
 
 (deftest test-evaluate
   ; y -> y
-  (is (= y (evaluate y)))
+  (is (= y (evaluate y {})))
 
   ; \x.y -> \x.y
-  (is (= "(λ x. x y)" (str (evaluate lxy))))       
+  (is (= "(λ x. x y)" (str (evaluate lxy {}))))       
 
   ; \x.(\x.x)y -> \x.y
-  (def r-lx-lxx-y (evaluate lx-lxx-y))
+  (def r-lx-lxx-y (evaluate lx-lxx-y {}))
   (is (lambda? r-lx-lxx-y))
   (is (= "(λ x. y)"  (str r-lx-lxx-y)))
 
   ; (x y) -> (x y)       
-  (is (= "( x y)" (str (evaluate xy))))
+  (is (= "( x y)" (str (evaluate xy {}))))
    
   ;( (x y) y) -> ( (x y) y)       
   (def xy-y (make-lambda '() [xy y]))
-  (is (= "(( x y) y)" (str (evaluate xy-y)) ))
+  (is (= "(( x y) y)" (str (evaluate xy-y {})) ))
 
   ; ( (\xy.xy) z f) -> (z f)       
   (def lxy-xy (make-lambda [x y] [x y]))
   (def tl-apply (make-lambda [] [lxy-xy z f]))
-  (is (= "( z f)" (str (evaluate tl-apply))))
+  (is (= "( z f)" (str (evaluate tl-apply {}))))
 
   ; ((\xy.xy)(\x.x)z) -> z       
-  (is (= z (evaluate (make-lambda [] [lxy-xy lxx z]))))
+  (is (= z (evaluate (make-lambda [] [lxy-xy lxx z]) {})))
  )
 
 (deftest test-substitute-if

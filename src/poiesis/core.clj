@@ -9,9 +9,13 @@
 ;     parser takes dictionary and returns atoms to add to it
 ;     evaluator takes context
 (defn compute [string]
-  (let [parsed (parse-l (lex string) {})
+  (let [dictionary {}
+        context {}
+        parsed (parse-l (lex string) dictionary)
         expression (first parsed)]
-  (str (evaluate expression))))
+;TODO reset dictionary with second from parsed
+
+  (str (evaluate expression context))))
 
 (defn prompt []
   (let [console (. System console)]

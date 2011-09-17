@@ -34,9 +34,16 @@
     (first terms)
     (make-lambda bound-vars terms)))
 
-(defn eval-expr [expr context]
-  (simplify (get-bound-vars expr) (evaluate* (get-terms expr) context) context))
+(defn eval-expr [expr contxt]
+  (let [bound-vars (get-bound-vars expr)
+        context (loop [c contxt
+                       bvs bound-vars] 
+                  (if (empty? bvs)
+                    c
+                    (recur (assoc c (first bvs) (first bvs)) (rest bvs))))]
+  (simplify (get-bound-vars expr) (evaluate* (get-terms expr) context) context)))
 
+;TODO refact inner if outside with a cond
 (defn evaluate* [terms context]
   (if (empty? terms)
     '()

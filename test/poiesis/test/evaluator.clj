@@ -43,6 +43,7 @@
   ; \x.y -> \x.y
   (is (= "(λ x. x y)" (str (evaluate lxy {}))))       
   (is (= "(λ x. x z)" (str (evaluate lxy {y z}))))       
+  (is (= "(λ x. x y)" (str (evaluate lxy {x z}))))       
 
   ; \x.(\x.x)y -> \x.y
   (def r-lx-lxx-y (evaluate lx-lxx-y {}))

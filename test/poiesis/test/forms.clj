@@ -9,20 +9,20 @@
 (def empty-expression (make-lambda [] []))
 (def not-a-lambda (make-lambda [] [foo]))
 
-(deftest atoms-are-atomic 
+(deftest words-are-words 
   (is (word? foo)))
 
-(deftest atoms-are-not-lambdas
+(deftest words-are-not-lambdas
   (is (not (lambda? foo))))
 
-(deftest atoms-have-syms
+(deftest words-have-syms
   (is (= "foo" (get-sym foo))))
 
-(deftest atoms-are-eq-if-their-syms-are-equal
+(deftest words-are-eq-if-their-syms-are-equal
   (is (eq? (make-word "foo") foo))
   (is (not (eq? (make-word "bar") foo))))
 
-(deftest atoms-are-bound-by-an-expression-if-they-are-in-the-bound-vars
+(deftest words-are-bound-by-an-expression-if-they-are-in-the-bound-vars
   (is (bound-by? foo lambda-expr))
   (is (not (bound-by? foo not-a-lambda))))
 

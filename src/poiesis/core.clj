@@ -6,7 +6,7 @@
   (:gen-class))
 
 ;TODO add dictionary and context
-;     parser takes dictionary and returns atoms to add to it
+;     parser takes dictionary and returns words to add to it
 ;     evaluator takes context
 (defn compute [string]
   (let [dictionary {}

@@ -53,7 +53,7 @@
                   atm (if is-new-atom? 
                           (make-word sym)
                           existing)
-                  atoms* (if is-new-atom?
+                  words* (if is-new-atom?
                            (assoc dictionary sym atm)
                            dictionary)]
-            (recur (rest syms) (cons atm stack) atoms*)))))))
+            (recur (rest syms) (cons atm stack) words*)))))))

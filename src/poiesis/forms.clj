@@ -1,7 +1,7 @@
 (ns poiesis.forms)
 
 (defprotocol Term
-  (atomic? [term]))
+  (word? [term]))
 
 (defprotocol Expression
   (lambda? [expression])
@@ -17,7 +17,7 @@
 (defn make-atom [sym]
   (reify
     Term
-    (atomic? [_] true)
+    (word? [_] true)
     Expression
      (lambda? [_] false)
     Word
@@ -31,7 +31,7 @@
 (defn make-lambda [bound-vars terms]
   (reify
     Term
-      (atomic? [_] false)
+      (word? [_] false)
     Expression
       (lambda? [_] (not (empty? bound-vars)))
       (get-bound-vars [_] bound-vars)

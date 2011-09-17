@@ -10,7 +10,7 @@
 (def not-a-lambda (make-lambda [] [foo]))
 
 (deftest atoms-are-atomic 
-  (is (atomic? foo)))
+  (is (word? foo)))
 
 (deftest atoms-are-not-lambdas
   (is (not (lambda? foo))))
@@ -27,7 +27,7 @@
   (is (not (bound-by? foo not-a-lambda))))
 
 (deftest expressions-are-not-atomic
-  (is (not (atomic? lambda-expr))))
+  (is (not (word? lambda-expr))))
 
 (deftest expressions-are-lambdas-if-they-bind-variables
   (is (lambda? lambda-expr))

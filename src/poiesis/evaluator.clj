@@ -17,7 +17,7 @@
     '()
     (let [term (first terms)
           head (cond 
-                 (not (atomic? term)) (replace-free context term)
+                 (not (word? term)) (replace-free context term)
                  (bound-by? term parent)  term
                  :else (substitute-if context term))]
       (cons head (replace-free* context parent (rest terms))))))
@@ -41,7 +41,7 @@
   (if (empty? terms)
     '()
     (let [term (first terms)]
-         (if (atomic? term)
+         (if (word? term)
            (cons (substitute-if context term) 
                  (evaluate* (rest terms) context))
            (if (lambda? term)
@@ -50,7 +50,7 @@
                    (evaluate* (rest terms) context)))))))
     
 (defn evaluate [term context]
-  (if (atomic? term)
+  (if (word? term)
     (substitute-if context term)
     (eval-expr term context)))
 

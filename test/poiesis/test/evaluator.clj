@@ -49,6 +49,7 @@
   (def r-lx-lxx-y (evaluate lx-lxx-y {}))
   (is (lambda? r-lx-lxx-y))
   (is (= "(λ x. y)"  (str r-lx-lxx-y)))
+  (is (= "(λ x. z)"  (str (evaluate lx-lxx-y {y z}))))
 
   ; (x y) -> (x y)       
   (is (= "( x y)" (str (evaluate xy {}))))

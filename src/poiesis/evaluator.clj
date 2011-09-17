@@ -42,7 +42,8 @@
     '()
     (let [term (first terms)]
          (if (atomic? term)
-           (cons term (evaluate* (rest terms) context))
+           (cons (substitute-if context term) 
+                 (evaluate* (rest terms) context))
            (if (lambda? term)
              (eval-lambda term (rest terms) context)
              (cons (eval-expr term context)

@@ -65,6 +65,8 @@
   (def lxy-xy (make-lambda [x y] [x y]))
   (def tl-apply (make-lambda [] [lxy-xy z f]))
   (is (= "( z f)" (str (evaluate tl-apply {}))))
+  (is (= "( f f)" (str (evaluate tl-apply {z f}))))
+  (is (= "( z z)" (str (evaluate tl-apply {f z}))))
 
   ; ((\xy.xy)(\x.x)z) -> z       
   (is (= z (evaluate (make-lambda [] [lxy-xy lxx z]) {})))

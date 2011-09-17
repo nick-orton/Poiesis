@@ -34,8 +34,8 @@
     (first terms)
     (make-lambda bound-vars terms)))
 
-(defn eval-expr [lambda context]
-  (simplify (get-bound-vars lambda) (evaluate* (get-terms lambda) context)))
+(defn eval-expr [expr context]
+  (simplify (get-bound-vars expr) (evaluate* (get-terms expr) context)))
 
 (defn evaluate* [terms context]
   (if (empty? terms)
@@ -50,7 +50,7 @@
     
 (defn evaluate [term context]
   (if (atomic? term)
-    term
+    (substitute-if context term)
     (eval-expr term context)))
 
 (defn beta-reduce

@@ -38,6 +38,8 @@
 (deftest test-evaluate
   ; y -> y
   (is (= y (evaluate y {})))
+  (is (= z (evaluate y {y z})))
+  
 
   ; \x.y -> \x.y
   (is (= "(λ x. x y)" (str (evaluate lxy {}))))       

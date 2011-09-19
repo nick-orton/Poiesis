@@ -15,17 +15,17 @@
 
 (deftest test-cons-expr
   (is (= "(:A:B)" (str (first (cons-expr '(:B :A "(") )))))
-  (is (= "(λ:C.:A:B)" (str (first (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(") )))))
+  (is (= "([:C]:A:B)" (str (first (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(") )))))
   (is (= ":D" (str (second (cons-expr '(:B :A (:LAMBDA-BINDING :C) "(" :D) ))))))
 
 (deftest test-parse-l
   (is (= "( A B)"  (str (first (parse-l '("(" "A" "B" ")") {})))))
   (is (= "( A B)"  (str  (first(parse-l '("(" "A" "B" ")") {})))))
   (is (= "( A B)"  (str (first (parse-l '( "A" "B") {})))))
-  (is (= "(λ A. A B)"  (str (first (parse-l '("(" "[""A" "]" "A" "B" ")") {})))))
-  (is (= "(λ A.( A) B)"  
+  (is (= "([ A] A B)"  (str (first (parse-l '("(" "[""A" "]" "A" "B" ")") {})))))
+  (is (= "([ A]( A) B)"  
          (str (first (parse-l '("(" "[""A" "]" "(" "A" ")" "B" ")") {})))))
-  (is (= "(λ A.(λ A. A) B)" 
+  (is (= "([ A]([ A] A) B)" 
          (str (first (parse-l '("(" "[""A" "]" "(" "[" "A" "]" "A" ")" "B" ")") {}))))))
 
 (deftest words-are-flyweights

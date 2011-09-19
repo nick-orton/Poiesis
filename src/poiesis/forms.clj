@@ -38,6 +38,6 @@
     Object
      (toString [self] 
                (if (lambda? self)
-                 (str "(" "λ" (apply str bound-vars) "." (apply str terms) ")")
+                 (str "(" "[" (apply str bound-vars) "]" (apply str terms) ")")
                  (str "(" (apply str terms) ")")))))
 

@@ -8,7 +8,8 @@ an action that transforms and continues the world. Neither technical production
 nor creation in the romantic sense, poïetic work reconciles thought with matter
 and time, and man with the world. 
 
-Poiesis is a simple PL based on lambda calculus.
+Poiesis is a simple PL based on 
+[lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus).
 
 ## Building
 
